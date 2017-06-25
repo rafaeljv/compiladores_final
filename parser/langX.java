@@ -9,7 +9,7 @@ import semanalysis.*;   // importa as classes para a análise semântica
 
 
 public class langX implements langXConstants {
-final static String Version = "X+++ Compiler - Version 1.0 - 2017";
+final static String Version = "X++ Compiler - Version 1.0 - 2004";
 int contParseError = 0;           // contador de erros sintáticos
 boolean debug_recovery;   // controla verbose de recuperação de erros
 Token lastError = null;
@@ -800,10 +800,9 @@ RecoverySet f1 = new RecoverySet(ASSIGN).union(g);
         case int_constant:
         case string_constant:
         case null_constant:
-        case double_constant:
         case char_constant:
         case boolean_constant:
-        case float_constant:
+        case double_constant:
         case IDENT:
         case LPAREN:
         case PLUS:
@@ -873,10 +872,9 @@ Token t = null;
         case int_constant:
         case string_constant:
         case null_constant:
-        case double_constant:
         case char_constant:
         case boolean_constant:
-        case float_constant:
+        case double_constant:
         case IDENT:
         case LPAREN:
         case PLUS:
@@ -984,10 +982,9 @@ RecoverySet f1 = new RecoverySet(SEMICOLON).union(g),
         case int_constant:
         case string_constant:
         case null_constant:
-        case double_constant:
         case char_constant:
         case boolean_constant:
-        case float_constant:
+        case double_constant:
         case IDENT:
         case LPAREN:
         case PLUS:
@@ -1038,10 +1035,9 @@ RecoverySet f1 = new RecoverySet(SEMICOLON).union(g),
         case int_constant:
         case string_constant:
         case null_constant:
-        case double_constant:
         case char_constant:
         case boolean_constant:
-        case float_constant:
+        case double_constant:
         case IDENT:
         case LPAREN:
         case PLUS:
@@ -1083,10 +1079,9 @@ RecoverySet f1 = new RecoverySet(SEMICOLON).union(g),
         case int_constant:
         case string_constant:
         case null_constant:
-        case double_constant:
         case char_constant:
         case boolean_constant:
-        case float_constant:
+        case double_constant:
         case IDENT:
         case LPAREN:
         case PLUS:
@@ -1591,11 +1586,6 @@ e = new BooleanConstNode(t);
 e = new NullConstNode(t);
         break;
         }
-      case float_constant:{
-        t = jj_consume_token(float_constant);
-e = new FloatConstNode(t);
-        break;
-        }
       case IDENT:{
         e = lvalue(null);
         break;
@@ -1628,10 +1618,9 @@ RecoverySet f =  new RecoverySet(COMMA).union(g);
       case int_constant:
       case string_constant:
       case null_constant:
-      case double_constant:
       case char_constant:
       case boolean_constant:
-      case float_constant:
+      case double_constant:
       case IDENT:
       case LPAREN:
       case PLUS:
@@ -1698,6 +1687,19 @@ l.add(e);
     finally { jj_save(3, xla); }
   }
 
+  private boolean jj_3R_18()
+ {
+    if (jj_scan_token(COMMA)) return true;
+    return false;
+  }
+
+  private boolean jj_3_4()
+ {
+    if (jj_scan_token(IDENT)) return true;
+    if (jj_scan_token(LPAREN)) return true;
+    return false;
+  }
+
   private boolean jj_3_2()
  {
     if (jj_scan_token(IDENT)) return true;
@@ -1721,7 +1723,7 @@ l.add(e);
     jj_scanpos = xsp;
     if (jj_scan_token(26)) {
     jj_scanpos = xsp;
-    if (jj_scan_token(46)) {
+    if (jj_scan_token(45)) {
     jj_scanpos = xsp;
     if (jj_scan_token(29)) {
     jj_scanpos = xsp;
@@ -1759,19 +1761,6 @@ l.add(e);
     return false;
   }
 
-  private boolean jj_3R_18()
- {
-    if (jj_scan_token(COMMA)) return true;
-    return false;
-  }
-
-  private boolean jj_3_4()
- {
-    if (jj_scan_token(IDENT)) return true;
-    if (jj_scan_token(LPAREN)) return true;
-    return false;
-  }
-
   /** Generated Token Manager. */
   public langXTokenManager token_source;
   SimpleCharStream jj_input_stream;
@@ -1796,7 +1785,7 @@ l.add(e);
       jj_la1_0 = new int[] {0x8001,0x8001,0x8000,0x40000,0x8000,0x10000,0x74200000,0x74200000,0x0,0x0,0x0,0x74200000,0x0,0x74200000,0x0,0x0,0x4200000,0x0,0x74200000,0xffb84000,0x400000,0x0,0x20000,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0xffb84000,0x0,0x0,0x0,0x74200000,0x0,0x74200000,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,};
    }
    private static void jj_la1_init_1() {
-      jj_la1_1 = new int[] {0x0,0x0,0x0,0x0,0x0,0x0,0x4000,0x4000,0x200000,0x2000000,0x200000,0x4000,0x200000,0x4000,0x200000,0x2000000,0x4000,0x200000,0x4000,0x884003,0x247f0,0x247f0,0x0,0x4000,0x247f0,0x4000,0x247f0,0x247f0,0xc,0xc,0x884003,0x4200000,0x200000,0x4000000,0x4000,0x200000,0x4000,0xf0000000,0xf0000000,0x0,0x0,0x0,0x0,0x0,0x0,0x247f0,0x2000000,0x247f0,};
+      jj_la1_1 = new int[] {0x0,0x0,0x0,0x0,0x0,0x0,0x2000,0x2000,0x100000,0x1000000,0x100000,0x2000,0x100000,0x2000,0x100000,0x1000000,0x2000,0x100000,0x2000,0x442003,0x123f0,0x123f0,0x0,0x2000,0x123f0,0x2000,0x123f0,0x123f0,0xc,0xc,0x442003,0x2100000,0x100000,0x2000000,0x2000,0x100000,0x2000,0xf0000000,0xf0000000,0x0,0x0,0x0,0x0,0x0,0x0,0x123f0,0x1000000,0x123f0,};
    }
    private static void jj_la1_init_2() {
       jj_la1_2 = new int[] {0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0xc,0xc,0x0,0x0,0xc,0x0,0xc,0xc,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x3,0x3,0xc,0xc,0x70,0x70,0xc,0xc,0x0,0x0,0xc,};

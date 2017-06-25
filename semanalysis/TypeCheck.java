@@ -13,12 +13,14 @@ public class TypeCheck extends VarCheck {
     type Returntype; // tipo de retorno de um método
     protected final EntrySimple STRING_TYPE;
     protected final EntrySimple INT_TYPE;
-
-    protected final EntrySimple CHAR_TYPE;
-    protected final EntrySimple BOOLEAN_TYPE;
-    protected final EntrySimple DOUBLE_TYPE;
-
     protected final EntrySimple NULL_TYPE;
+
+    // trecho inserido - inicio
+    protected final EntrySimple DOUBLE_TYPE;
+    protected final EntrySimple BOOLEAN_TYPE;
+    protected final EntrySimple CHAR_TYPE;
+    // trecho inserido - final
+
     protected EntryMethod CurMethod; // método sendo analisado
     boolean cansuper; // indica se chamada super é permitida
 
@@ -28,12 +30,16 @@ public class TypeCheck extends VarCheck {
         Nlocals = 0;
         STRING_TYPE = (EntrySimple) Maintable.classFindUp("string");
         INT_TYPE = (EntrySimple) Maintable.classFindUp("int");
+        NULL_TYPE = new EntrySimple("$NULL$");
         
+        // trecho inserido - inicio
         CHAR_TYPE = (EntrySimple) Maintable.classFindUp("char");
         BOOLEAN_TYPE = (EntrySimple) Maintable.classFindUp("boolean");
         DOUBLE_TYPE = (EntrySimple) Maintable.classFindUp("double");
+        // trecho inserido - final
 
-        NULL_TYPE = new EntrySimple("$NULL$");
+
+
         Maintable.add(NULL_TYPE);
     }
 
@@ -43,7 +49,7 @@ public class TypeCheck extends VarCheck {
 
         if (foundSemanticError != 0) { // se houve erro, lança exceção
             throw new SemanticException(foundSemanticError +
-                " Erros semanticos encontrados (fase 3)");
+                " Semantic Errors found (phase 3)");
         }
     }
 
@@ -90,7 +96,7 @@ public class TypeCheck extends VarCheck {
 
         if (circularSuperclass(nc, nc.parent)) { // se existe declaracão circular, ERRO
             nc.parent = null;
-            throw new SemanticException(x.position, "Heranca circular.");
+            throw new SemanticException(x.position, "Circular inheritance");
         }
 
         Curtable = nc.nested; // tabela corrente = tabela da classe
@@ -144,7 +150,7 @@ public class TypeCheck extends VarCheck {
             // se conseguiu a variável foi definida 2 vezes, ERRO
             if (l != null) {
                 throw new SemanticException(q.position,
-                    "Variavel " + q.position.image + " declarada em duplicidade.");
+                    "Variable " + q.position.image + " already declared");
             }
         }
     }
@@ -433,8 +439,8 @@ public class TypeCheck extends VarCheck {
         t = TypeCheckExpreNode(x.expr);
 
         // tipo tem que ser string e dimensão tem que ser 0
-        if (((t.ty != STRING_TYPE) && t.ty != CHAR_TYPE && t.ty != INT_TYPE && t.ty != DOUBLE_TYPE) || (t.dim != 0)) {
-            throw new SemanticException(x.position, "Necessario que o print seja para um int, double, char ou string.");
+        if ((t.ty != STRING_TYPE) || (t.dim != 0)) {
+            throw new SemanticException(x.position, "string expression required");
         }
     }
 
@@ -464,12 +470,12 @@ public class TypeCheck extends VarCheck {
             }
         }
 
-        // verifica se o tipo é string ou int. Ou char ou double.
+        // verifica se o tipo é string ou int
         t = TypeCheckExpreNode(x.expr);
 
-        if ((t.ty != STRING_TYPE) && (t.ty != INT_TYPE) && (t.ty != CHAR_TYPE) && (t.ty != DOUBLE_TYPE)) {
+        if ((t.ty != STRING_TYPE) && (t.ty != INT_TYPE)) {
             throw new SemanticException(x.position,
-                "Tipo invalido. Deve ser int, string, char ou double.");
+                "Invalid type. Must be int or string");
         }
 
         // verifica se não é array
@@ -590,10 +596,21 @@ public class TypeCheck extends VarCheck {
 
         // verifica tipos das expressões
         // verifica dimensões
+
+      
+
+
+        
         if (t1.dim != t2.dim) {
             throw new SemanticException(x.position,
                 "Invalid dimensions in assignment");
         }
+        
+
+      
+
+
+
 
         // verifica se lado esquerdo é uma classe e direito é null, OK
         if (t1.ty instanceof EntryClass && (t2.ty == NULL_TYPE)) {
@@ -601,11 +618,21 @@ public class TypeCheck extends VarCheck {
         }
 
         // verifica se t2 e subclasse de t1
+      
+
+
+        
         if (!(isSubClass(t2.ty, t1.ty) || isSubClass(t1.ty, t2.ty))) {
             throw new SemanticException(x.position,
                 "Incompatible types for assignment ");
         }
+    
+    
+
+
+
     }
+
 
     protected boolean isSubClass(EntryTable t1, EntryTable t2) {
         // verifica se são o mesmo tipo (vale para tipos simples)
@@ -639,9 +666,9 @@ public class TypeCheck extends VarCheck {
         try {
             t = TypeCheckExpreNode(x.expr);
 
-            if (( (t.ty != INT_TYPE) && (t.ty != BOOLEAN_TYPE) ) || (t.dim != 0)) {
+            if ((t.ty == INT_TYPE) || (t.dim == 0) || (t.ty == BOOLEAN_TYPE) || (t.ty == DOUBLE_TYPE) || (t.ty == CHAR_TYPE)) {} else {
                 throw new SemanticException(x.expr.position,
-                    "Expressao deve ser int ou boolean.");
+                    "Integer, boolean, double or char expression expected");
             }
         } catch (SemanticException e) {
             System.out.println(e.getMessage());
@@ -683,9 +710,9 @@ public class TypeCheck extends VarCheck {
         try {
             t = TypeCheckExpreNode(x.expr);
 
-            if (( (t.ty != INT_TYPE) && (t.ty != BOOLEAN_TYPE) ) || (t.dim != 0)) {
+            if ((t.ty != INT_TYPE) || (t.dim != 0)) {
                 throw new SemanticException(x.expr.position,
-                    "Expressao deve ser int ou boolean.");
+                    "Integer expression expected");
             }
         } catch (SemanticException e) {
             System.out.println(e.getMessage());
@@ -724,6 +751,11 @@ public class TypeCheck extends VarCheck {
                 "break not in a for statement");
         }
     }
+
+
+
+
+
 
 
 // ------------------------- comando while -----------------------
@@ -843,6 +875,14 @@ public void TypeCheckSwitchNode(SwitchNode x) {
             foundSemanticError++;
         }
     }
+
+
+
+
+
+
+
+
 
 
 
@@ -986,27 +1026,29 @@ public void TypeCheckSwitchNode(SwitchNode x) {
             return new type(INT_TYPE, 0);
         }
 
+    // trecho inserido - inicio
 
-        if ((t1.ty == DOUBLE_TYPE) && (t2.ty == INT_TYPE)) {
-            return new type(INT_TYPE, 0);
-        }
-
-
-        if ((t1.ty == INT_TYPE) && (t2.ty == DOUBLE_TYPE)) {
-            return new type(INT_TYPE, 0);
-        }
-
+        // se ambos são double, retorna OK
         if ((t1.ty == DOUBLE_TYPE) && (t2.ty == DOUBLE_TYPE)) {
             return new type(DOUBLE_TYPE, 0);
         }
 
+        // se ambos são char, retorna OK
+        if ((t1.ty == CHAR_TYPE) && (t2.ty == CHAR_TYPE)) {
+            return new type(CHAR_TYPE, 0);
+        }
 
+        // se ambos são boolean, retorna OK
+        if ((t1.ty == BOOLEAN_TYPE) && (t2.ty == BOOLEAN_TYPE)) {
+            return new type(BOOLEAN_TYPE, 0);
+        }
 
+        // se ambos são boolean, retorna OK
+        if ((t1.ty == BOOLEAN_TYPE) && (t2.ty == BOOLEAN_TYPE )) {
+            return new type(BOOLEAN_TYPE, 0);
+        }
 
-
-
-
-
+    // trecho inserido - final
 
         // se a dimensão é diferente, ERRO
         if (t1.dim != t2.dim) {
@@ -1063,13 +1105,13 @@ public void TypeCheckSwitchNode(SwitchNode x) {
 
         i = j = 0;
 
-        if (t1.ty == INT_TYPE || t1.ty == DOUBLE_TYPE) {
+        if (t1.ty == INT_TYPE) {
             i++;
         } else if (t1.ty == STRING_TYPE) {
             j++;
         }
 
-        if (t2.ty == INT_TYPE || t2.ty == DOUBLE_TYPE) {
+        if (t2.ty == INT_TYPE) {
             i++;
         } else if (t2.ty == STRING_TYPE) {
             j++;
@@ -1112,12 +1154,12 @@ public void TypeCheckSwitchNode(SwitchNode x) {
         }
 
         // só dois int's são aceitos
-        if ((t1.ty != INT_TYPE) || (t2.ty != INT_TYPE || t1.ty != DOUBLE_TYPE || t2.ty != DOUBLE_TYPE)) {
+        if ((t1.ty != INT_TYPE) || (t2.ty != INT_TYPE)) {
             throw new SemanticException(x.position,
                 "Invalid types for " + x.position.image);
         }
-        if ((t1.ty == DOUBLE_TYPE) && (t2.ty == DOUBLE_TYPE)) {return new type(DOUBLE_TYPE, 0);}
-        else {return new type(INT_TYPE, 0);}
+
+        return new type(INT_TYPE, 0);
     }
 
     // ------------------------- Expressão unaria ------------------------
@@ -1136,13 +1178,13 @@ public void TypeCheckSwitchNode(SwitchNode x) {
                 "Can not use unary " + x.position.image + " for arrays");
         }
 
-        // só int ou double sao aceitos
-        if (t.ty != INT_TYPE || t.ty != DOUBLE_TYPE) {
+        // só int é aceito
+        if (t.ty != INT_TYPE) {
             throw new SemanticException(x.position,
                 "Incompatible type for unary " + x.position.image);
         }
-        if(t.ty == DOUBLE_TYPE) {return new type(DOUBLE_TYPE, 0);}
-        else {return new type(INT_TYPE, 0);}
+
+        return new type(INT_TYPE, 0);
     }
 
     // -------------------------- Constante inteira ----------------------
@@ -1180,6 +1222,54 @@ public void TypeCheckSwitchNode(SwitchNode x) {
 
         return new type(NULL_TYPE, 0);
     }
+
+
+
+// ------------------------------ Constante boolean --------------------------
+    public type TypeCheckBooleanConstNode(BooleanConstNode x) {
+        if (x == null) {
+            return null;
+        }
+
+        return new type(BOOLEAN_TYPE, 0);
+    }
+
+
+    // ------------------------------ Constante double --------------------------
+    public type TypeCheckDoubleConstNode(DoubleConstNode x) {
+        if (x == null) {
+            return null;
+        }
+
+        return new type(DOUBLE_TYPE, 0);
+    }
+
+// ------------------------------ Constante char --------------------------
+    public type TypeCheckCharConstNode(CharConstNode x) {
+        if (x == null) {
+            return null;
+        }
+
+        return new type(CHAR_TYPE, 0);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     // -------------------------------- Nome de variável ------------------
     public type TypeCheckVarNode(VarNode x) throws SemanticException {
@@ -1266,10 +1356,10 @@ public void TypeCheckSwitchNode(SwitchNode x) {
         // pega tipo do índice
         t2 = TypeCheckExpreNode(x.expr2);
 
-        // se não for int ou double, ERRO
-        if ( ((t2.ty != INT_TYPE) && (t2.ty != DOUBLE_TYPE)) || (t2.dim > 0)) {
+        // se não for int, ERRO
+        if ((t2.ty != INT_TYPE) || (t2.dim > 0)) {
             throw new SemanticException(x.position,
-                "Invalid type. Index must be int or double");
+                "Invalid type. Index must be int");
         }
 
         return new type(t1.ty, t1.dim - 1);
@@ -1340,7 +1430,19 @@ public void TypeCheckSwitchNode(SwitchNode x) {
             return TypeCheckDotNode((DotNode) x);
         } else if (x instanceof VarNode) {
             return TypeCheckVarNode((VarNode) x);
-        } else {
+        } else if (x instanceof BooleanConstNode) {
+            return TypeCheckBooleanConstNode((BooleanConstNode) x);
+        } else if (x instanceof DoubleConstNode) {
+            return TypeCheckDoubleConstNode((DoubleConstNode) x);
+        } else if (x instanceof CharConstNode) {
+            return TypeCheckCharConstNode((CharConstNode) x);
+        }
+
+
+
+
+
+        else {
             return null;
         }
     }
@@ -1376,8 +1478,6 @@ public void TypeCheckSwitchNode(SwitchNode x) {
             TypeCheckDoWhileNode((DoWhileNode) x);
         } else if (x instanceof SwitchNode) {
             TypeCheckSwitchNode((SwitchNode) x);
-        } else if (x instanceof SwitchCaseNode) {
-            TypeCheckSwitchCaseNode((SwitchCaseNode) x);
         }
     }
 }

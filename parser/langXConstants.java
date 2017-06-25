@@ -61,45 +61,45 @@ public interface langXConstants {
   /** RegularExpression Id. */
   int null_constant = 38;
   /** RegularExpression Id. */
-  int double_constant = 39;
+  int char_constant = 39;
   /** RegularExpression Id. */
-  int char_constant = 40;
+  int boolean_constant = 40;
   /** RegularExpression Id. */
-  int boolean_constant = 41;
+  int double_constant = 41;
   /** RegularExpression Id. */
-  int float_constant = 42;
+  int intLiteral = 42;
   /** RegularExpression Id. */
-  int intLiteral = 43;
+  int floatliteral = 43;
   /** RegularExpression Id. */
-  int floatliteral = 44;
+  int stringliteral = 44;
   /** RegularExpression Id. */
-  int stringliteral = 45;
+  int IDENT = 45;
   /** RegularExpression Id. */
-  int IDENT = 46;
+  int LETTER = 46;
   /** RegularExpression Id. */
-  int LETTER = 47;
+  int DIGIT = 47;
   /** RegularExpression Id. */
-  int DIGIT = 48;
+  int LPAREN = 48;
   /** RegularExpression Id. */
-  int LPAREN = 49;
+  int RPAREN = 49;
   /** RegularExpression Id. */
-  int RPAREN = 50;
+  int LBRACE = 50;
   /** RegularExpression Id. */
-  int LBRACE = 51;
+  int RBRACE = 51;
   /** RegularExpression Id. */
-  int RBRACE = 52;
+  int LBRACKET = 52;
   /** RegularExpression Id. */
-  int LBRACKET = 53;
+  int RBRACKET = 53;
   /** RegularExpression Id. */
-  int RBRACKET = 54;
+  int SEMICOLON = 54;
   /** RegularExpression Id. */
-  int SEMICOLON = 55;
+  int COLON = 55;
   /** RegularExpression Id. */
-  int COLON = 56;
+  int COMMA = 56;
   /** RegularExpression Id. */
-  int COMMA = 57;
+  int DOT = 57;
   /** RegularExpression Id. */
-  int DOT = 58;
+  int ASPAS = 58;
   /** RegularExpression Id. */
   int ASSIGN = 59;
   /** RegularExpression Id. */
@@ -177,10 +177,9 @@ public interface langXConstants {
     "<int_constant>",
     "<string_constant>",
     "\"null\"",
-    "<double_constant>",
     "<char_constant>",
     "<boolean_constant>",
-    "<float_constant>",
+    "<double_constant>",
     "<intLiteral>",
     "<floatliteral>",
     "<stringliteral>",
@@ -197,6 +196,7 @@ public interface langXConstants {
     "\":\"",
     "\",\"",
     "\".\"",
+    "\"\\\'\"",
     "\"=\"",
     "\">\"",
     "\"<\"",

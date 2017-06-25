@@ -27,7 +27,7 @@ import semanalysis.*;   // importa as classes para a análise semântica
  
 
 public class langX {
-final static String Version = "X+++ Compiler - Version 1.0 - 2017";
+final static String Version = "X++ Compiler - Version 1.0 - 2004";
 int contParseError = 0;           // contador de erros sintáticos
 boolean debug_recovery;   // controla verbose de recuperação de erros
 Token lastError = null;
@@ -277,16 +277,11 @@ TOKEN :
 |
   < null_constant: "null" > // constante null
 |
-  < double_constant: <int_constant> <DOT> (<int_constant>)*  >
-|
-  < char_constant: "\""( ~["\"","\n","\r"])* "\"" >
+  <char_constant: (<ASPAS> <LETTER> <ASPAS>) >
 |
   < boolean_constant: "true" | "false" >
 |
-< float_constant: (
-			<intLiteral> "." (<intLiteral> | <intLiteral> ( "e" | "E" )? ("-")? <intLiteral>)?
-           | (<intLiteral>)? "." ( <intLiteral> | <intLiteral> ( "e" | "E" )? ("-")? <intLiteral> )
-           ) >
+  < double_constant: (<DIGIT> <DOT> (<DIGIT>)*) >
 }
 
 /* literais */
@@ -327,6 +322,7 @@ TOKEN :
 | <COLON: ":" >
 | < COMMA: "," >
 | < DOT: "." >
+| <ASPAS: "'" >
 }
 
 /* Operadores */
@@ -376,7 +372,8 @@ SPECIAL_TOKEN :
   "\t",
   "\n",
   "\r",
-  "\f"
+  "\f",
+  "'"
 ])+>
    {
     System.err.println("Line " + input_stream.getEndLine() + 
@@ -1062,16 +1059,14 @@ Token t;
        t = <int_constant> { e = new IntConstNode(t); }
     | 
        t = <string_constant> { e = new StringConstNode(t); }
+    | 
+       t = <double_constant> { e = new DoubleConstNode(t); }
     |
-	t = <double_constant> { e = new DoubleConstNode(t); }
-    |
-	t = <char_constant> { e = new CharConstNode(t); }
-    |   
-	t = <boolean_constant> { e = new BooleanConstNode(t); }
+       t = <char_constant> { e = new CharConstNode(t); }
+|
+       t = <boolean_constant> { e = new BooleanConstNode(t); }
     | 
        t = <null_constant> { e = new NullConstNode(t); }
-| 
-       t = <float_constant> { e = new FloatConstNode(t); }
     |
        e = lvalue(null) 
     |

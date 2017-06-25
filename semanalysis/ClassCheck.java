@@ -18,17 +18,17 @@ public class ClassCheck {
         k = new EntrySimple("int"); // insere os tipos básicos da linguagem
         Maintable.add(k);
         k = new EntrySimple("string");
+        
+        //trecho inserido - inicio
         Maintable.add(k);
         k = new EntrySimple("double");
         Maintable.add(k);
-        k = new EntrySimple("boolean");
-        Maintable.add(k);
         k = new EntrySimple("char");
         Maintable.add(k);
-
-
-
-
+        k = new EntrySimple("boolean");
+        // trecho inserido - final
+        
+        Maintable.add(k);
     }
 
     public void ClassCheckRoot(ListNode x) throws SemanticException {

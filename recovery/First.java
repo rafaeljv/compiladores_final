@@ -18,17 +18,10 @@ public class First { //implementa os conjuntos first p/ alguns n.terminais
         methoddecl.add(new Integer(langXConstants.INT));
         methoddecl.add(new Integer(langXConstants.STRING));
         methoddecl.add(new Integer(langXConstants.IDENT));
-        methoddecl.add(new Integer(langXConstants.DOUBLE));
-        methoddecl.add(new Integer(langXConstants.CHAR));
-        methoddecl.add(new Integer(langXConstants.BOOLEAN));
-
 
         vardecl.add(new Integer(langXConstants.INT));
         vardecl.add(new Integer(langXConstants.STRING));
         vardecl.add(new Integer(langXConstants.IDENT));
-        vardecl.add(new Integer(langXConstants.DOUBLE));
-        vardecl.add(new Integer(langXConstants.CHAR));
-        vardecl.add(new Integer(langXConstants.BOOLEAN));
 
         classlist.add(new Integer(langXConstants.CLASS));
 
@@ -42,11 +35,6 @@ public class First { //implementa os conjuntos first p/ alguns n.terminais
         statlist.add(new Integer(langXConstants.SUPER));
         statlist.add(new Integer(langXConstants.IF));
         statlist.add(new Integer(langXConstants.FOR));
-        
-        statlist.add(new Integer(langXConstants.DO));
-        statlist.add(new Integer(langXConstants.WHILE));
-        statlist.add(new Integer(langXConstants.SWITCH));
-        
         statlist.add(new Integer(langXConstants.LBRACE));
         statlist.add(new Integer(langXConstants.BREAK));
         statlist.add(new Integer(langXConstants.SEMICOLON));
